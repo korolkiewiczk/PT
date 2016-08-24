@@ -2,6 +2,7 @@
 {
     enum PokerLayouts
     {
+        None,
         HighCard,
         Pair,
         TwoPair,

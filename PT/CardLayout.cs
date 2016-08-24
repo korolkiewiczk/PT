@@ -32,7 +32,16 @@ namespace PT
             PokerCardPowerResolver cardPowerResolver = new PokerCardPowerResolver(resolver.BestLayout);
             int layoutPower = cardPowerResolver.Resolve();
 
-            return new PokerMark(resolver.PokerLayout, layoutPower);
+            return new PokerMark(resolver.PokerLayout, layoutPower, resolver.BestLayout);
+        }
+
+        public override string ToString()
+        {
+#if DEBUG
+            return string.Join(" ", _cards).Replace("♠","S").Replace("♣","C").Replace("♥","H").Replace("♦","D");
+#else
+            return string.Join(" ", _cards);
+#endif
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿namespace PT
+﻿using System;
+using System.Linq;
+
+namespace PT
 {
     class PokerLayoutResolver
     {
@@ -11,7 +14,7 @@
 
         public PokerLayouts PokerLayout => _pokerLayout;
 
-        
+
 
         public PokerLayoutResolver(CardLayout layout)
         {
@@ -43,7 +46,66 @@
 
         private CardLayout GetBestLayout(PokerLayouts pokerLayout, int bestFlush, int bestTwo, int secondTwo, int bestThree, int bestFour, int bestStraight)
         {
-            throw new System.NotImplementedException();
+            if (pokerLayout == PokerLayouts.None) return _layout;
+            CardLayout newCardLayout = new CardLayout(new Card[5]);
+            int j = 0;
+            for (int i = 0; i < _layout.Cards.Length; i++)
+            {
+                var card = _layout.Cards[i];
+                int type = (int)card.CardType;
+                int color = (int)card.CardColor;
+                bool assign = false;
+                if (pokerLayout == PokerLayouts.Poker && bestStraight == type && bestFlush == color)
+                {
+                    assign = true;
+                }
+                else
+                if (pokerLayout == PokerLayouts.FourOfKind && bestFour == type)
+                {
+                    assign = true;
+                }
+                else
+                if (pokerLayout == PokerLayouts.FullHouse && (bestThree == type || bestTwo == type))
+                {
+                    assign = true;
+                }
+                else
+                if (pokerLayout == PokerLayouts.Flush && bestFlush == color)
+                {
+                    assign = true;
+                }
+                else
+                if (pokerLayout == PokerLayouts.Straight && (bestStraight <= type && bestStraight <= type + 5))
+                {
+                    if (!newCardLayout.Cards.Any(x=>(int)x.CardType == type))
+                        assign = true;
+                }
+                else
+                if (pokerLayout == PokerLayouts.Pair && bestThree == type)
+                {
+                    assign = true;
+                }
+                else
+                if (pokerLayout == PokerLayouts.TwoPair && (bestTwo == type || secondTwo == type))
+                {
+                    assign = true;
+                }
+                else
+                if (pokerLayout == PokerLayouts.Pair && bestTwo == type)
+                {
+                    assign = true;
+                }
+                if (assign)
+                    newCardLayout.Cards[j++] = _layout.Cards[i];
+            }
+            var newArray = _layout.Cards.OrderByDescending(x => x).ToArray();
+            for (int i = 0; i < newArray.Length && j < 5; i++)
+            {
+                if (!newCardLayout.Cards.Contains(newArray[i]))
+                    newCardLayout.Cards[j++] = newArray[i];
+            }
+            if (j < 5) throw new Exception("Number of cards in new layout < 5");
+            return newCardLayout;
         }
 
         private PokerLayouts GetPockerLayouts(int bestFlush, int bestTwo, int secondTwo, int bestThree, int bestFour, int bestStraight)
@@ -59,7 +121,7 @@
 
             if (Ok(bestFlush))
                 return PokerLayouts.Flush;
-            
+
             if (Ok(bestStraight))
                 return PokerLayouts.Straight;
 
@@ -77,15 +139,15 @@
 
         private bool Ok(int val)
         {
-            return val > 0;
+            return val >= 0;
         }
 
         private void GetBuckets()
         {
             foreach (var card in _layout.Cards)
             {
-                ++bucketsType[(int) card.CardType];
-                ++bucketsColor[(int) card.CardColor];
+                ++bucketsType[(int)card.CardType];
+                ++bucketsColor[(int)card.CardColor];
             }
         }
 
@@ -110,6 +172,9 @@
             bestThree = -1;
             bestFour = -1;
             bestStraight = -1;
+
+            if (_layout.Cards.Length < 5) return;
+
             int straightCounter = -1;
             for (int i = 0; i < bucketsType.Length; i++)
             {
@@ -126,7 +191,7 @@
 
                 if (typeTimes > 0 && straightCounter == -1)
                 {
-                    if (bucketsType[13] > 0 && i == 0)
+                    if (bucketsType[12] > 0 && i == 0)
                         straightCounter = 2;
                     else
                         straightCounter = 1;
