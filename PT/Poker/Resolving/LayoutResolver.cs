@@ -4,7 +4,7 @@ using PT.Poker.Model;
 
 namespace PT.Poker.Resolving
 {
-    public class PokerLayoutResolver
+    public class LayoutResolver
     {
         private readonly CardLayout _layout;
 
@@ -13,7 +13,7 @@ namespace PT.Poker.Resolving
         public PokerLayouts PokerLayout { get; private set; } = PokerLayouts.HighCard;
 
 
-        public PokerLayoutResolver(CardLayout layout)
+        public LayoutResolver(CardLayout layout)
         {
             _layout = layout;
             Init();
@@ -36,7 +36,7 @@ namespace PT.Poker.Resolving
             int bestStraight;
             GetPokerLayouts(out bestTwo, out secondTwo, out bestThree, out bestFour, out bestStraight);
 
-            PokerLayout = GetPockerLayouts(bestFlush, bestTwo, secondTwo, bestThree, bestFour, bestStraight);
+            PokerLayout = GetPockerLayout(bestFlush, bestTwo, secondTwo, bestThree, bestFour, bestStraight);
 
             BestLayout = GetBestLayout(PokerLayout, bestFlush, bestTwo, secondTwo, bestThree, bestFour, bestStraight);
         }
@@ -105,7 +105,7 @@ namespace PT.Poker.Resolving
             return newCardLayout;
         }
 
-        private PokerLayouts GetPockerLayouts(int bestFlush, int bestTwo, int secondTwo, int bestThree, int bestFour, int bestStraight)
+        private PokerLayouts GetPockerLayout(int bestFlush, int bestTwo, int secondTwo, int bestThree, int bestFour, int bestStraight)
         {
             if (Ok(bestFlush) && Ok(bestStraight))
                 return PokerLayouts.Poker;

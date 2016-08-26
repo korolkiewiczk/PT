@@ -3,11 +3,11 @@ using PT.Poker.Model;
 
 namespace PT.Poker.Resolving
 {
-    public class PokerCardPowerResolver
+    public class CardPowerResolver
     {
         private readonly CardLayout _layout;
 
-        public PokerCardPowerResolver(CardLayout layout)
+        public CardPowerResolver(CardLayout layout)
         {
             _layout = layout;
         }

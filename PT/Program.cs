@@ -7,7 +7,7 @@ namespace PT
     {
         static void Main(string[] args)
         {
-            CardLayout layout1 =new CardLayout(new Card[]
+            CardLayout layout1 =new CardLayout(new[]
             {
                 new Card(CardColor.Spades, CardType.C7),
                 new Card(CardColor.Diamonds, CardType.C9),
@@ -17,7 +17,7 @@ namespace PT
                 new Card(CardColor.Spades, CardType.C2),
             });
 
-            CardLayout layout2 = new CardLayout(new Card[]
+            CardLayout layout2 = new CardLayout(new[]
             {
                 new Card(CardColor.Spades, CardType.C7),
                 new Card(CardColor.Diamonds, CardType.C9),
@@ -27,7 +27,7 @@ namespace PT
                 new Card(CardColor.Spades, CardType.C2),
             });
 
-            CardLayout layout3 = new CardLayout(new Card[]
+            CardLayout layout3 = new CardLayout(new[]
             {
                 new Card(CardColor.Spades, CardType.C7),
                 new Card(CardColor.Diamonds, CardType.C8),
@@ -38,7 +38,7 @@ namespace PT
                 new Card(CardColor.Diamonds, CardType.Q),
             });
 
-            CardLayout layout4 = new CardLayout(new Card[]
+            CardLayout layout4 = new CardLayout(new[]
             {
                 new Card(CardColor.Spades, CardType.C2),
                 new Card(CardColor.Diamonds, CardType.C3),

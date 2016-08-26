@@ -6,11 +6,16 @@ using PT.Poker.Resolving;
 
 namespace PT.Poker.Model
 {
-    public class CardLayout : IComparable, IMarkable
+    public class CardLayout : IComparable, IMarkable, IRandomGenerated
     {
         private Card[] _cards;
 
         public Card[] Cards => _cards;
+
+        public CardLayout()
+        {
+            
+        }
 
         public CardLayout(Card[] cards)
         {
@@ -29,9 +34,9 @@ namespace PT.Poker.Model
 
         public IMark GetMark()
         {
-            PokerLayoutResolver resolver = new PokerLayoutResolver(this);
+            LayoutResolver resolver = new LayoutResolver(this);
 
-            PokerCardPowerResolver cardPowerResolver = new PokerCardPowerResolver(resolver.BestLayout);
+            CardPowerResolver cardPowerResolver = new CardPowerResolver(resolver.BestLayout);
             int layoutPower = cardPowerResolver.Resolve();
 
             return new PokerMark(resolver.PokerLayout, layoutPower, resolver.BestLayout);
@@ -44,6 +49,11 @@ namespace PT.Poker.Model
 #else
             return string.Join(" ", _cards);
 #endif
+        }
+
+        public void Generate()
+        {
+            
         }
     }
 }
