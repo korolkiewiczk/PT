@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PT.Poker.Model;
 
-namespace PT
+namespace PT.Poker.Resolving
 {
-    class PokerCardPowerResolver
+    public class PokerCardPowerResolver
     {
-        private CardLayout _layout;
+        private readonly CardLayout _layout;
 
         public PokerCardPowerResolver(CardLayout layout)
         {

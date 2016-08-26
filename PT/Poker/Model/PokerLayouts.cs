@@ -1,6 +1,6 @@
-﻿namespace PT
+namespace PT.Poker.Model
 {
-    enum PokerLayouts
+    public enum PokerLayouts
     {
         None,
         HighCard,

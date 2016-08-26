@@ -1,19 +1,16 @@
-﻿using System;
+using System;
 using System.Linq;
+using PT.Poker.Model;
 
-namespace PT
+namespace PT.Poker.Resolving
 {
-    class PokerLayoutResolver
+    public class PokerLayoutResolver
     {
-        private CardLayout _layout;
+        private readonly CardLayout _layout;
 
-        private CardLayout _bestLayout;
-        private PokerLayouts _pokerLayout = PokerLayouts.HighCard;
+        public CardLayout BestLayout { get; private set; }
 
-        public CardLayout BestLayout => _bestLayout;
-
-        public PokerLayouts PokerLayout => _pokerLayout;
-
+        public PokerLayouts PokerLayout { get; private set; } = PokerLayouts.HighCard;
 
 
         public PokerLayoutResolver(CardLayout layout)
@@ -23,8 +20,8 @@ namespace PT
         }
 
 
-        private int[] bucketsType = new int[13];
-        private int[] bucketsColor = new int[4];
+        private readonly int[] _bucketsType = new int[13];
+        private readonly int[] _bucketsColor = new int[4];
 
         private void Init()
         {
@@ -39,9 +36,9 @@ namespace PT
             int bestStraight;
             GetPokerLayouts(out bestTwo, out secondTwo, out bestThree, out bestFour, out bestStraight);
 
-            _pokerLayout = GetPockerLayouts(bestFlush, bestTwo, secondTwo, bestThree, bestFour, bestStraight);
+            PokerLayout = GetPockerLayouts(bestFlush, bestTwo, secondTwo, bestThree, bestFour, bestStraight);
 
-            _bestLayout = GetBestLayout(_pokerLayout, bestFlush, bestTwo, secondTwo, bestThree, bestFour, bestStraight);
+            BestLayout = GetBestLayout(PokerLayout, bestFlush, bestTwo, secondTwo, bestThree, bestFour, bestStraight);
         }
 
         private CardLayout GetBestLayout(PokerLayouts pokerLayout, int bestFlush, int bestTwo, int secondTwo, int bestThree, int bestFour, int bestStraight)
@@ -75,9 +72,9 @@ namespace PT
                     assign = true;
                 }
                 else
-                if (pokerLayout == PokerLayouts.Straight && (bestStraight <= type && bestStraight <= type + 5))
+                if (pokerLayout == PokerLayouts.Straight && ((bestStraight >= type && bestStraight < type + 5) || (bestStraight == 4 && type == (int)CardType.A)))
                 {
-                    if (!newCardLayout.Cards.Any(x=>(int)x.CardType == type))
+                    if (!newCardLayout.Cards.Any(x => (int)x.CardType == type))
                         assign = true;
                 }
                 else
@@ -146,17 +143,17 @@ namespace PT
         {
             foreach (var card in _layout.Cards)
             {
-                ++bucketsType[(int)card.CardType];
-                ++bucketsColor[(int)card.CardColor];
+                ++_bucketsType[(int)card.CardType];
+                ++_bucketsColor[(int)card.CardColor];
             }
         }
 
         private int GetFlush()
         {
             int bestFlush = -1;
-            for (int i = 0; i < bucketsColor.Length; i++)
+            for (int i = 0; i < _bucketsColor.Length; i++)
             {
-                int colorTimes = bucketsColor[i];
+                int colorTimes = _bucketsColor[i];
                 if (colorTimes >= 5)
                 {
                     bestFlush = i;
@@ -176,9 +173,9 @@ namespace PT
             if (_layout.Cards.Length < 5) return;
 
             int straightCounter = -1;
-            for (int i = 0; i < bucketsType.Length; i++)
+            for (int i = 0; i < _bucketsType.Length; i++)
             {
-                int typeTimes = bucketsType[i];
+                int typeTimes = _bucketsType[i];
                 if (typeTimes == 2)
                 {
                     if (bestTwo != -1)
@@ -191,7 +188,7 @@ namespace PT
 
                 if (typeTimes > 0 && straightCounter == -1)
                 {
-                    if (bucketsType[12] > 0 && i == 0)
+                    if (_bucketsType[12] > 0 && i == 0)
                         straightCounter = 2;
                     else
                         straightCounter = 1;

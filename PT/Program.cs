@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PT.Poker.Model;
 
 namespace PT
 {
@@ -41,12 +38,23 @@ namespace PT
                 new Card(CardColor.Diamonds, CardType.Q),
             });
 
-            CardLayout[] layouts = {layout1, layout2, layout3};
+            CardLayout layout4 = new CardLayout(new Card[]
+            {
+                new Card(CardColor.Spades, CardType.C2),
+                new Card(CardColor.Diamonds, CardType.C3),
+                new Card(CardColor.Clubs, CardType.C5),
+                new Card(CardColor.Spades, CardType.C4),
+                new Card(CardColor.Spades, CardType.A),
+                new Card(CardColor.Spades, CardType.J),
+                new Card(CardColor.Diamonds, CardType.J),
+            });
+
+            CardLayout[] layouts = { layout1, layout2, layout3, layout4 };
 
             foreach (var layout in layouts)
             {
                 Console.WriteLine(layout);
-                var mark = layout.GetMark();
+                var mark = (PokerMark)layout.GetMark();
                 Console.WriteLine(mark.PokerLayout);
                 Console.WriteLine(mark.PowerOfCards);
                 Console.WriteLine(mark.BestLayout);

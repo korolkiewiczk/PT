@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace PT
+namespace PT.Poker.Model
 {
-    struct Card : IComparable<Card>
+    public struct Card : IComparable<Card>
     {
         public Card(CardColor cardColor, CardType cardType)
         {

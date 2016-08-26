@@ -1,6 +1,6 @@
-﻿namespace PT
+﻿namespace PT.Poker.Model
 {
-    class CardSet
+    public class CardSet
     {
         private CardLayout[] _cardLayouts;
 

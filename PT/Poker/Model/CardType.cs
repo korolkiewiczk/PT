@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PT
+namespace PT.Poker.Model
 {
-    enum CardType
+    public enum CardType
     {
         C2,
         C3,

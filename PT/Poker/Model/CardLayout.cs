@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using PT.Interfaces;
+using PT.Poker.Resolving;
 
-namespace PT
+namespace PT.Poker.Model
 {
-    class CardLayout : IComparable, IPokerLayout
+    public class CardLayout : IComparable, IMarkable
     {
         private Card[] _cards;
 
@@ -22,10 +24,10 @@ namespace PT
 
         public int CompareTo(object other)
         {
-            return GetMark().CompareTo(((IPokerLayout)other).GetMark());
+            return GetMark().CompareTo(((IMarkable)other).GetMark());
         }
 
-        public PokerMark GetMark()
+        public IMark GetMark()
         {
             PokerLayoutResolver resolver = new PokerLayoutResolver(this);
 

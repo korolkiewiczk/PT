@@ -43,22 +43,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Card.cs" />
-    <Compile Include="CardColor.cs" />
-    <Compile Include="CardLayout.cs" />
-    <Compile Include="CardSet.cs" />
-    <Compile Include="CardType.cs" />
-    <Compile Include="IPokerLayout.cs" />
-    <Compile Include="PokerCardPowerResolver.cs" />
-    <Compile Include="PokerLayoutResolver.cs" />
-    <Compile Include="PokerLayouts.cs" />
-    <Compile Include="PokerMark.cs" />
+    <Compile Include="Interfaces\IMark.cs" />
+    <Compile Include="Interfaces\IMarkable.cs" />
+    <Compile Include="Poker\Model\Card.cs" />
+    <Compile Include="Poker\Model\CardColor.cs" />
+    <Compile Include="Poker\Model\CardLayout.cs" />
+    <Compile Include="Poker\Model\CardSet.cs" />
+    <Compile Include="Poker\Model\CardType.cs" />
+    <Compile Include="Poker\Model\PokerLayouts.cs" />
+    <Compile Include="Poker\Model\PokerMark.cs" />
+    <Compile Include="Poker\Resolving\PokerCardPowerResolver.cs" />
+    <Compile Include="Poker\Resolving\PokerLayoutResolver.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
