@@ -6,11 +6,9 @@ using PT.Poker.Resolving;
 
 namespace PT.Poker.Model
 {
-    public class CardLayout : IComparable, IMarkable, IRandomGenerated
+    public class CardLayout : IComparable, IMarkable
     {
-        private Card[] _cards;
-
-        public Card[] Cards => _cards;
+        public Card[] Cards { get; }
 
         public CardLayout()
         {
@@ -19,12 +17,12 @@ namespace PT.Poker.Model
 
         public CardLayout(Card[] cards)
         {
-            _cards = cards;
+            Cards = cards;
         }
 
         public CardLayout(IEnumerable<Card> cards)
         {
-            _cards = cards.ToArray();
+            Cards = cards.ToArray();
         }
 
         public int CompareTo(object other)
@@ -45,15 +43,12 @@ namespace PT.Poker.Model
         public override string ToString()
         {
 #if DEBUG
-            return string.Join(" ", _cards).Replace("♠","S").Replace("♣","C").Replace("♥","H").Replace("♦","D");
+            return string.Join(" ", Cards).Replace("♠","S").Replace("♣","C").Replace("♥","H").Replace("♦","D");
 #else
             return string.Join(" ", _cards);
 #endif
         }
 
-        public void Generate()
-        {
-            
-        }
+        public int Size => Cards.Length;
     }
 }

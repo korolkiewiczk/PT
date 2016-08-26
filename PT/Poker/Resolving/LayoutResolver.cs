@@ -46,7 +46,7 @@ namespace PT.Poker.Resolving
             if (pokerLayout == PokerLayouts.None) return _layout;
             CardLayout newCardLayout = new CardLayout(new Card[5]);
             int j = 0;
-            for (int i = 0; i < _layout.Cards.Length; i++)
+            for (int i = 0; i < _layout.Size; i++)
             {
                 var card = _layout.Cards[i];
                 int type = (int)card.CardType;
@@ -170,7 +170,7 @@ namespace PT.Poker.Resolving
             bestFour = -1;
             bestStraight = -1;
 
-            if (_layout.Cards.Length < 5) return;
+            if (_layout.Size < 5) return;
 
             int straightCounter = -1;
             for (int i = 0; i < _bucketsType.Length; i++)

@@ -1,7 +1,7 @@
 ﻿namespace PT.Interfaces
 {
-    public interface IRandomGenerated
+    public interface IRandomGenerated<in T>
     {
-        void Generate();
+        void Generate(T arg);
     }
 }

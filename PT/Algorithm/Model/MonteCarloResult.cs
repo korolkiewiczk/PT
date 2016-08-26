@@ -4,14 +4,14 @@
     {
         public double Better { get; }
 
-        public double Exact { get; }
+        public double Exact => (1 - Better - Smaller);
 
-        public double Smaller => (1 - Better - Exact);
+        public double Smaller { get; }
 
-        public MonteCarloResult(double better, double exact)
+        public MonteCarloResult(double better, double smaller)
         {
             Better = better;
-            Exact = exact;
+            Smaller = smaller;
         }
     }
 }

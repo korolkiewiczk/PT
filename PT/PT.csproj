@@ -43,8 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Algorithm\Model\MonteCarloResult.cs" />
+    <Compile Include="Algorithm\MonteCarlo.cs" />
     <Compile Include="Interfaces\IMark.cs" />
     <Compile Include="Interfaces\IMarkable.cs" />
+    <Compile Include="Interfaces\IRandomGenerated.cs" />
+    <Compile Include="Interfaces\IEncounter.cs" />
     <Compile Include="Poker\Model\Card.cs" />
     <Compile Include="Poker\Model\CardColor.cs" />
     <Compile Include="Poker\Model\CardLayout.cs" />
@@ -52,8 +56,10 @@
     <Compile Include="Poker\Model\CardType.cs" />
     <Compile Include="Poker\Model\PokerLayouts.cs" />
     <Compile Include="Poker\Model\PokerMark.cs" />
-    <Compile Include="Poker\Resolving\PokerCardPowerResolver.cs" />
-    <Compile Include="Poker\Resolving\PokerLayoutResolver.cs" />
+    <Compile Include="Poker\Model\RandomSetDefinition.cs" />
+    <Compile Include="Poker\Model\SetMark.cs" />
+    <Compile Include="Poker\Resolving\CardPowerResolver.cs" />
+    <Compile Include="Poker\Resolving\LayoutResolver.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
