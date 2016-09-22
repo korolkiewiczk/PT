@@ -5,14 +5,24 @@ namespace PT.Poker.Model
 {
     public struct Card : IComparable<Card>
     {
-        public Card(CardColor cardColor, CardType cardType)
+        private readonly CardType _cardType;
+        private readonly CardColor _cardColor;
+
+        public CardType CardType
         {
-            CardColor = cardColor;
-            CardType = cardType;
+            get { return _cardType; }
         }
 
-        public CardType CardType { get; }
-        public CardColor CardColor { get; }
+        public CardColor CardColor
+        {
+            get { return _cardColor; }
+        }
+
+        public Card(CardColor cardColor, CardType cardType)
+        {
+            _cardColor = cardColor;
+            _cardType = cardType;
+        }
 
         public override int GetHashCode()
         {

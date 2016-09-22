@@ -2,16 +2,28 @@
 {
     public struct MonteCarloResult
     {
-        public double Better { get; }
+        private readonly double _better;
+        private readonly double _smaller;
 
-        public double Exact => (1 - Better - Smaller);
+        public double Better
+        {
+            get { return _better; }
+        }
 
-        public double Smaller { get; }
+        public double Exact
+        {
+            get { return (1 - Better - Smaller); }
+        }
+
+        public double Smaller
+        {
+            get { return _smaller; }
+        }
 
         public MonteCarloResult(double better, double smaller)
         {
-            Better = better;
-            Smaller = smaller;
+            _better = better;
+            _smaller = smaller;
         }
     }
 }

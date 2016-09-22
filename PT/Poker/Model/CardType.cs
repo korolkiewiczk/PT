@@ -14,6 +14,7 @@ namespace PT.Poker.Model
         J,
         Q,
         K,
-        A
+        A,
+        Undefinied
     }
 }

@@ -4,17 +4,30 @@ namespace PT.Poker.Model
 {
     public struct PokerMark : IMark
     {
-        public PokerLayouts PokerLayout { get; }
+        private readonly PokerLayouts _pokerLayout;
+        private readonly int _powerOfCards;
+        private readonly CardLayout _bestLayout;
 
-        public int PowerOfCards { get; }
+        public PokerLayouts PokerLayout
+        {
+            get { return _pokerLayout; }
+        }
 
-        public CardLayout BestLayout { get; }
+        public int PowerOfCards
+        {
+            get { return _powerOfCards; }
+        }
+
+        public CardLayout BestLayout
+        {
+            get { return _bestLayout; }
+        }
 
         public PokerMark(PokerLayouts pokerLayout, int powerOfCards, CardLayout bestLayout)
         {
-            PokerLayout = pokerLayout;
-            PowerOfCards = powerOfCards;
-            BestLayout = bestLayout;
+            _pokerLayout = pokerLayout;
+            _powerOfCards = powerOfCards;
+            _bestLayout = bestLayout;
         }
 
         private int CompareTo(PokerMark other)

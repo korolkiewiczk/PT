@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using PT.Poker.Model;
 
@@ -10,7 +11,11 @@ namespace PT.Poker.Resolving
 
         public CardLayout BestLayout { get; private set; }
 
-        public PokerLayouts PokerLayout { get; private set; } = PokerLayouts.HighCard;
+        public PokerLayouts PokerLayout
+        {
+            get { return _pokerLayout; }
+            private set { _pokerLayout = value; }
+        }
 
 
         public LayoutResolver(CardLayout layout)
@@ -22,6 +27,7 @@ namespace PT.Poker.Resolving
 
         private readonly int[] _bucketsType = new int[13];
         private readonly int[] _bucketsColor = new int[4];
+        private PokerLayouts _pokerLayout = PokerLayouts.HighCard;
 
         private void Init()
         {
@@ -45,6 +51,7 @@ namespace PT.Poker.Resolving
         {
             if (pokerLayout == PokerLayouts.None) return _layout;
             CardLayout newCardLayout = new CardLayout(new Card[5]);
+            HashSet<CardType> usedCards = new HashSet<CardType>();
             int j = 0;
             for (int i = 0; i < _layout.Size; i++)
             {
@@ -72,10 +79,12 @@ namespace PT.Poker.Resolving
                     assign = true;
                 }
                 else
-                if (pokerLayout == PokerLayouts.Straight && ((bestStraight >= type && bestStraight < type + 5) || (bestStraight == 4 && type == (int)CardType.A)))
+                if (pokerLayout == PokerLayouts.Straight && ((bestStraight >= type && bestStraight < type + 5) || (bestStraight == 3 && type == (int)CardType.A)))
                 {
-                    if (!newCardLayout.Cards.Any(x => (int)x.CardType == type))
+                    if (!usedCards.Contains((CardType) type))
+                    {
                         assign = true;
+                    }
                 }
                 else
                 if (pokerLayout == PokerLayouts.Pair && bestThree == type)
@@ -93,7 +102,10 @@ namespace PT.Poker.Resolving
                     assign = true;
                 }
                 if (assign)
+                {
                     newCardLayout.Cards[j++] = _layout.Cards[i];
+                    usedCards.Add(card.CardType);
+                }
             }
             var newArray = _layout.Cards.OrderByDescending(x => x).ToArray();
             for (int i = 0; i < newArray.Length && j < 5; i++)

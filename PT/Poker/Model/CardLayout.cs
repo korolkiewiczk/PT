@@ -8,7 +8,12 @@ namespace PT.Poker.Model
 {
     public class CardLayout : IComparable, IMarkable
     {
-        public Card[] Cards { get; }
+        private readonly Card[] _cards;
+
+        public Card[] Cards
+        {
+            get { return _cards; }
+        }
 
         public CardLayout()
         {
@@ -17,12 +22,12 @@ namespace PT.Poker.Model
 
         public CardLayout(Card[] cards)
         {
-            Cards = cards;
+            _cards = cards;
         }
 
         public CardLayout(IEnumerable<Card> cards)
         {
-            Cards = cards.ToArray();
+            _cards = cards.ToArray();
         }
 
         public int CompareTo(object other)
@@ -49,6 +54,9 @@ namespace PT.Poker.Model
 #endif
         }
 
-        public int Size => Cards.Length;
+        public int Size
+        {
+            get { return Cards.Length; }
+        }
     }
 }

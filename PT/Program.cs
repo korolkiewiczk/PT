@@ -49,7 +49,36 @@ namespace PT
                 new Card(CardColor.Diamonds, CardType.J),
             });
 
-            CardLayout[] layouts = { layout1, layout2, layout3, layout4 };
+            CardLayout layout5 = new CardLayout(new[]
+            {
+                new Card(CardColor.Spades, CardType.C2),
+                new Card(CardColor.Diamonds, CardType.C3),
+                new Card(CardColor.Clubs, CardType.C5),
+                new Card(CardColor.Spades, CardType.C4),
+                new Card(CardColor.Spades, CardType.C6),
+                new Card(CardColor.Spades, CardType.J),
+                new Card(CardColor.Diamonds, CardType.J),
+            });
+
+            CardLayout layout6 = new CardLayout(new[]
+            {
+                new Card(CardColor.Spades, CardType.C7),
+                new Card(CardColor.Spades, CardType.C7),
+                new Card(CardColor.Spades, CardType.K),
+                new Card(CardColor.Diamonds, CardType.K),
+                new Card(CardColor.Clubs, CardType.K),
+            });
+
+            CardLayout layout7 = new CardLayout(new[]
+            {
+                new Card(CardColor.Spades, CardType.Q),
+                new Card(CardColor.Diamonds, CardType.Q),
+                new Card(CardColor.Clubs, CardType.Q),
+                new Card(CardColor.Spades, CardType.A),
+                new Card(CardColor.Spades, CardType.A),
+            });
+
+            CardLayout[] layouts = { layout1, layout2, layout3, layout4, layout5, layout6, layout7 };
 
             foreach (var layout in layouts)
             {
