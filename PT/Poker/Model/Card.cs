@@ -7,6 +7,10 @@ namespace PT.Poker.Model
     {
         private readonly CardType _cardType;
         private readonly CardColor _cardColor;
+        private readonly int _weight;
+
+        public static readonly int WeightLevel1 = (1 << 13);
+        public static readonly int WeightLevel2 = (1 << 13)*4;
 
         public CardType CardType
         {
@@ -18,10 +22,16 @@ namespace PT.Poker.Model
             get { return _cardColor; }
         }
 
-        public Card(CardColor cardColor, CardType cardType)
+        public int Weight
+        {
+            get { return _weight; }
+        }
+
+        public Card(CardColor cardColor, CardType cardType, int weight = 0)
         {
             _cardColor = cardColor;
             _cardType = cardType;
+            _weight = weight;
         }
 
         public override int GetHashCode()
@@ -32,6 +42,11 @@ namespace PT.Poker.Model
         public int CompareTo(Card other)
         {
             return CardType.CompareTo(other.CardType);
+        }
+
+        public int Power
+        {
+            get { return (1 << ((int) CardType))*(1 + Weight); }
         }
 
         public override string ToString()

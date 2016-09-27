@@ -14,7 +14,7 @@ namespace PT.Poker.Resolving
 
         public int Resolve()
         {
-            return _layout.Cards.Sum(x => 1 << ((int) x.CardType));
+            return _layout.Cards.Sum(x => x.Power);
         }
     }
 }

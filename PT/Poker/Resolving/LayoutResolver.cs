@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using PT.Poker.Model;
 
@@ -59,6 +60,7 @@ namespace PT.Poker.Resolving
                 int type = (int)card.CardType;
                 int color = (int)card.CardColor;
                 bool assign = false;
+                int weight = 0;
                 if (pokerLayout == PokerLayouts.Poker && bestStraight == type && bestFlush == color)
                 {
                     assign = true;
@@ -71,6 +73,10 @@ namespace PT.Poker.Resolving
                 else
                 if (pokerLayout == PokerLayouts.FullHouse && (bestThree == type || bestTwo == type))
                 {
+                    if (bestThree == type)
+                        weight = Card.WeightLevel2;
+                    else if (bestTwo == type)
+                        weight = Card.WeightLevel1;
                     assign = true;
                 }
                 else
@@ -103,15 +109,18 @@ namespace PT.Poker.Resolving
                 }
                 if (assign)
                 {
-                    newCardLayout.Cards[j++] = _layout.Cards[i];
+                    newCardLayout.Cards[j++] = card;
                     usedCards.Add(card.CardType);
                 }
             }
             var newArray = _layout.Cards.OrderByDescending(x => x).ToArray();
             for (int i = 0; i < newArray.Length && j < 5; i++)
             {
-                if (!newCardLayout.Cards.Contains(newArray[i]))
+                if (!usedCards.Contains(newArray[i].CardType))
+                {
                     newCardLayout.Cards[j++] = newArray[i];
+                    usedCards.Add(newArray[i].CardType);
+                }
             }
             if (j < 5) throw new Exception("Number of cards in new layout < 5");
             return newCardLayout;

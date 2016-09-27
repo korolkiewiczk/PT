@@ -1,13 +1,13 @@
 ﻿using System;
 using PT.Poker.Model;
 
-namespace PT
+namespace PTT
 {
     class Program
     {
         static void Main(string[] args)
         {
-            CardLayout layout1 =new CardLayout(new[]
+            CardLayout layout1 = new CardLayout(new[]
             {
                 new Card(CardColor.Spades, CardType.C7),
                 new Card(CardColor.Diamonds, CardType.C9),
