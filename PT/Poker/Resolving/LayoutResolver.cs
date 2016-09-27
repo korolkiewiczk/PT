@@ -93,7 +93,7 @@ namespace PT.Poker.Resolving
                     }
                 }
                 else
-                if (pokerLayout == PokerLayouts.Pair && bestThree == type)
+                if (pokerLayout == PokerLayouts.ThreeOfKind && bestThree == type)
                 {
                     assign = true;
                 }
@@ -109,8 +109,22 @@ namespace PT.Poker.Resolving
                 }
                 if (assign)
                 {
-                    newCardLayout.Cards[j++] = card;
-                    usedCards.Add(card.CardType);
+                    if (j >= newCardLayout.Size)
+                    {
+                        var minCard = newCardLayout.Cards.Min();
+                        if (minCard.CompareTo(card) < 0)
+                        {
+                            int ind = newCardLayout.Cards.ToList().IndexOf(minCard);
+
+                            newCardLayout.Cards[ind] = card;
+                            usedCards.Add(card.CardType);
+                        }
+                    }
+                    else
+                    {
+                        newCardLayout.Cards[j++] = card;
+                        usedCards.Add(card.CardType);
+                    }
                 }
             }
             var newArray = _layout.Cards.OrderByDescending(x => x).ToArray();

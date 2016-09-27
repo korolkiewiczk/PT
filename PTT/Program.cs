@@ -106,7 +106,29 @@ namespace PTT
                 new Card(CardColor.Clubs, CardType.C2),
             });
 
-            CardLayout[] layouts = { layout1, layout2, layout3, layout4, layout5, layout6, layout7, layout8, layout9, layout10 };
+
+            CardLayout layout11 = new CardLayout(new[]
+            {
+                new Card(CardColor.Spades, CardType.C10),
+                new Card(CardColor.Diamonds, CardType.C10),
+                new Card(CardColor.Clubs, CardType.C10),
+                new Card(CardColor.Spades, CardType.C9),
+                new Card(CardColor.Spades, CardType.C8),
+            });
+
+            CardLayout layout12 = new CardLayout(new[]
+            {
+                new Card(CardColor.Spades, CardType.C10),
+                new Card(CardColor.Spades, CardType.C2),
+                new Card(CardColor.Spades, CardType.C3),
+                new Card(CardColor.Spades, CardType.C4),
+                new Card(CardColor.Spades, CardType.C6),
+                new Card(CardColor.Spades, CardType.C8),
+                new Card(CardColor.Spades, CardType.C9),
+            });
+
+
+            CardLayout[] layouts = {/* layout1, layout2, layout3, layout4, layout5, layout6, layout7, layout8, layout9, layout10,layout11,*/  layout12};
 
             foreach (var layout in layouts)
             {

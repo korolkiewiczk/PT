@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using PT.Interfaces;
 
 namespace PT.Poker.Model
@@ -9,7 +11,11 @@ namespace PT.Poker.Model
         private CardLayout[] _cardLayouts;
         private int _compareMyLayout;
 
-        private static Random _random = new Random();
+        private static readonly Random _random = new Random();
+
+        public CardSet()
+        {
+        }
 
         public CardSet(CardLayout[] cardLayouts)
         {
@@ -21,16 +27,42 @@ namespace PT.Poker.Model
         {
             byte[,] usedCards = new byte[4, 13];
 
-            _cardLayouts=new CardLayout[arg.NumOfPlayers];
-            if (arg.MyLayout.Size != 2) throw new Exception();
-            Set(usedCards,arg.MyLayout.Cards[0]);
-            Set(usedCards, arg.MyLayout.Cards[1]);
-            GenerateRandomCards(usedCards, arg.MyLayout, 2, 5);
-            for (int i = 1; i < arg.NumOfPlayers; i++)
+            List<Card> board = arg.Board.ToList();
+            int iboard = 0;
+            for (; iboard < board.Count; iboard++)
             {
-                
+                Card t = board[iboard];
+                Set(usedCards, t);
             }
 
+            for (; iboard < 5; iboard++)
+            {
+                Card card = RandomCard(usedCards);
+                board.Add(card);
+            }
+
+
+            if (arg.MyLayout.Size>2) throw new Exception("User layout can contain only <=2 cards");
+
+            _cardLayouts =new CardLayout[arg.NumOfPlayers];
+            for (int i = 0; i < arg.MyLayout.Size; i++)
+            {
+                Set(usedCards, arg.MyLayout.Cards[i]);
+            }
+
+            var cardLayouts = new List<CardLayout>
+            {
+                GenerateRandomCards(usedCards, arg.MyLayout, arg.MyLayout.Size, 6, board)
+            };
+
+            for (int i = 1; i < arg.NumOfPlayers; i++)
+            {
+                cardLayouts.Add(GenerateRandomCards(usedCards, null, 0, 6, board));
+            }
+
+            _cardLayouts = cardLayouts.ToArray();
+
+            
             Update();
         }
 
@@ -58,12 +90,13 @@ namespace PT.Poker.Model
                     return result;
                 }
             } while ((--k)>0);
-            throw new Exception();
+            throw new Exception("RANDOMCARD k<0");
         }
 
-        private CardLayout GenerateRandomCards(byte[,] array, CardLayout layout, int start, int end)
+        private CardLayout GenerateRandomCards(byte[,] array, CardLayout layout, int start, int end, List<Card> boardCards)
         {
             var size = end - start + 1;
+            if (size <= 0) return new CardLayout(layout.Cards);
             if (layout == null)
             {
                 layout = new CardLayout(new Card[size]);
@@ -72,14 +105,22 @@ namespace PT.Poker.Model
             {
                 if (layout.Size < size)
                 {
-                    var newCards = new Card[size];
+                    var newCards = new Card[size + layout.Size];
                     Array.Copy(layout.Cards, newCards, layout.Size);
                     layout = new CardLayout(newCards);
                 }
             }
-            for (int i = start; i <= end; i++)
+            int jBoard = 0;
+            for (int i = start; i <= end; i++, jBoard++)
             {
-                layout.Cards[i] = RandomCard(array);
+                if (jBoard < boardCards.Count)
+                {
+                    layout.Cards[i] = boardCards[jBoard];
+                }
+                else
+                {
+                    layout.Cards[i] = RandomCard(array);
+                }
             }
 
             return layout;
@@ -102,7 +143,7 @@ namespace PT.Poker.Model
                 }
             }
 
-            _compareMyLayout = win ? 1 : 0;
+            _compareMyLayout = win ? 1 : _compareMyLayout;
         }
 
         public bool IsWinning
