@@ -35,19 +35,17 @@ namespace PT.Poker.Model
                 Set(usedCards, t);
             }
 
+            if (arg.MyLayout.Size > 2) throw new Exception("User layout can contain only <=2 cards");
+
+            for (int i = 0; i < arg.MyLayout.Size; i++)
+            {
+                Set(usedCards, arg.MyLayout.Cards[i]);
+            }
+
             for (; iboard < 5; iboard++)
             {
                 Card card = RandomCard(usedCards);
                 board.Add(card);
-            }
-
-
-            if (arg.MyLayout.Size>2) throw new Exception("User layout can contain only <=2 cards");
-
-            _cardLayouts =new CardLayout[arg.NumOfPlayers];
-            for (int i = 0; i < arg.MyLayout.Size; i++)
-            {
-                Set(usedCards, arg.MyLayout.Cards[i]);
             }
 
             var cardLayouts = new List<CardLayout>
@@ -129,21 +127,20 @@ namespace PT.Poker.Model
         private void Update()
         {
             var myLayout = GetMyLayout();
-            bool win = true;
+            _compareMyLayout = 1;
             for (int i = 1; i < _cardLayouts.Length; i++)
             {
                 var comparison = myLayout.CompareTo(_cardLayouts[i]);
                 if (comparison < 0)
                 {
                     _compareMyLayout = -1;
+                    break;
                 }
                 if (comparison == 0)
                 {
-                    win = false;
+                    _compareMyLayout = Math.Min(_compareMyLayout,0);
                 }
             }
-
-            _compareMyLayout = win ? 1 : _compareMyLayout;
         }
 
         public bool IsWinning

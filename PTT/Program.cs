@@ -127,8 +127,17 @@ namespace PTT
                 new Card(CardColor.Spades, CardType.C9),
             });
 
+           CardLayout layout13 = new CardLayout(new[]
+           {
+                new Card(CardColor.Spades, CardType.A),
+                new Card(CardColor.Hearts, CardType.A),
+                new Card(CardColor.Diamonds, CardType.A),
+                new Card(CardColor.Spades, CardType.K),
+                new Card(CardColor.Hearts, CardType.K),
+                new Card(CardColor.Diamonds, CardType.K),
+            });
 
-            CardLayout[] layouts = {/* layout1, layout2, layout3, layout4, layout5, layout6, layout7, layout8, layout9, layout10,layout11,*/  layout12};
+            CardLayout[] layouts = { layout1, layout2, layout3, layout4, layout5, layout6, layout7, layout8, layout9, layout10,layout11, layout12, layout13};
 
             foreach (var layout in layouts)
             {

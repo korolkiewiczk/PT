@@ -52,7 +52,8 @@ namespace PT.Poker.Resolving
         {
             if (pokerLayout == PokerLayouts.None) return _layout;
             CardLayout newCardLayout = new CardLayout(new Card[5]);
-            HashSet<CardType> usedCards = new HashSet<CardType>();
+            HashSet<CardType> usedCardTypes = new HashSet<CardType>();
+            HashSet<Card> usedCards = new HashSet<Card>();
             int j = 0;
             for (int i = 0; i < _layout.Size; i++)
             {
@@ -87,7 +88,7 @@ namespace PT.Poker.Resolving
                 else
                 if (pokerLayout == PokerLayouts.Straight && ((bestStraight >= type && bestStraight < type + 5) || (bestStraight == 3 && type == (int)CardType.A)))
                 {
-                    if (!usedCards.Contains((CardType) type))
+                    if (!usedCardTypes.Contains((CardType) type))
                     {
                         assign = true;
                     }
@@ -117,23 +118,25 @@ namespace PT.Poker.Resolving
                             int ind = newCardLayout.Cards.ToList().IndexOf(minCard);
 
                             newCardLayout.Cards[ind] = card;
-                            usedCards.Add(card.CardType);
+                            usedCardTypes.Add(card.CardType);
+                            usedCards.Add(card);
                         }
                     }
                     else
                     {
                         newCardLayout.Cards[j++] = card;
-                        usedCards.Add(card.CardType);
+                        usedCardTypes.Add(card.CardType);
+                        usedCards.Add(card);
                     }
                 }
             }
             var newArray = _layout.Cards.OrderByDescending(x => x).ToArray();
             for (int i = 0; i < newArray.Length && j < 5; i++)
             {
-                if (!usedCards.Contains(newArray[i].CardType))
+                if (!usedCards.Contains(newArray[i]))
                 {
                     newCardLayout.Cards[j++] = newArray[i];
-                    usedCards.Add(newArray[i].CardType);
+                    usedCardTypes.Add(newArray[i].CardType);
                 }
             }
             if (j < 5) throw new Exception("Number of cards in new layout < 5");

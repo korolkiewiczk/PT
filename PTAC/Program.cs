@@ -9,7 +9,7 @@ namespace PTAC
 {
     class Program
     {
-        private const int MonteCarloIterations = 100;
+        private const int MonteCarloIterations = 1000;
 
         private static CardColor? _waitingColor;
         private static CardType? _waitingCardType;
@@ -21,6 +21,17 @@ namespace PTAC
         static void Main(string[] args)
         {
             ShowNumOfPlayers();
+
+            //test
+            _cards.Add(new Card(CardColor.Spades, CardType.C2));
+            _cards.Add(new Card(CardColor.Clubs, CardType.C3));
+            _cards.Add(new Card(CardColor.Spades, CardType.A));
+            _cards.Add(new Card(CardColor.Diamonds, CardType.C7));
+            _cards.Add(new Card(CardColor.Clubs, CardType.Q));
+            _cards.Add(new Card(CardColor.Hearts, CardType.K));
+            _cards.Add(new Card(CardColor.Spades, CardType.C9));
+            //end test
+
             while (true)
             {
                 var key = Console.ReadKey(true);
@@ -40,12 +51,6 @@ namespace PTAC
                         RemoveLastCard();
                     }
 
-                    if (_cards.Count == 7)
-                    {
-                        ShowMax();
-                        continue;
-                    }
-
                     int? newNumOfPlayers = GetNumOfPlayers(key);
                     if (newNumOfPlayers != null)
                     {
@@ -54,6 +59,12 @@ namespace PTAC
                         Console.WriteLine();
 
                         ShowNumOfPlayers();
+                        continue;
+                    }
+
+                    if (_cards.Count == 7)
+                    {
+                        ShowMax();
                         continue;
                     }
 
@@ -95,7 +106,7 @@ namespace PTAC
             {
                 MyLayout = new CardLayout(_cards.Take(2).ToArray()),
                 NumOfPlayers = _numOfPlayers.Value,
-                Board = _cards.Skip(2).Take(3).ToArray()
+                Board = _cards.Skip(2).Take(5).ToArray()
             };
             MonteCarlo<CardSet, RandomSetDefinition> monteCarlo =
                 new MonteCarlo<CardSet, RandomSetDefinition>(cardSet, MonteCarloIterations, arg);
