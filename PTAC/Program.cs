@@ -22,16 +22,6 @@ namespace PTAC
         {
             ShowNumOfPlayers();
 
-            //test
-            _cards.Add(new Card(CardColor.Spades, CardType.C2));
-            _cards.Add(new Card(CardColor.Clubs, CardType.C3));
-            _cards.Add(new Card(CardColor.Spades, CardType.A));
-            _cards.Add(new Card(CardColor.Diamonds, CardType.C7));
-            _cards.Add(new Card(CardColor.Clubs, CardType.Q));
-            _cards.Add(new Card(CardColor.Hearts, CardType.K));
-            _cards.Add(new Card(CardColor.Spades, CardType.C9));
-            //end test
-
             while (true)
             {
                 var key = Console.ReadKey(true);
@@ -105,6 +95,7 @@ namespace PTAC
             RandomSetDefinition arg = new RandomSetDefinition
             {
                 MyLayout = new CardLayout(_cards.Take(2).ToArray()),
+                // ReSharper disable once PossibleInvalidOperationException
                 NumOfPlayers = _numOfPlayers.Value,
                 Board = _cards.Skip(2).Take(5).ToArray()
             };
