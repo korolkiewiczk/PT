@@ -150,8 +150,19 @@ namespace PTAC
         private static void ShowBet(MonteCarloResult result)
         {
             var bet = ComputeBet(result);
+
+            bool useColor = _cards.Count == 2 || _cards.Count >= 5;
+            var prevColor = Console.BackgroundColor;
+            if (useColor)
+            {
+                Console.BackgroundColor=ConsoleColor.DarkRed;
+            }
+
             Console.Write((_pot - bet < 0.01) ? "All-in" : bet.ToString());
             Console.Write(" (" + (bet - _lastBet) + ") ");
+
+            Console.BackgroundColor = prevColor;
+
             _lastBet = bet;
         }
 
