@@ -24,7 +24,7 @@ namespace PTAC
 
         static void Main(string[] args)
         {
-            ShowNumOfPlayers();
+            ShowHeader();
 
             while (true)
             {
@@ -35,6 +35,8 @@ namespace PTAC
                 }
                 else
                 {
+                    CheckPotKeys(key);
+
                     if (key.Key == ConsoleKey.Escape)
                     {
                         ClearCards();
@@ -52,7 +54,7 @@ namespace PTAC
                         SolveAndShow();
                         Console.WriteLine();
 
-                        ShowNumOfPlayers();
+                        ShowHeader();
                         continue;
                     }
 
@@ -66,6 +68,34 @@ namespace PTAC
 
                     AddCardsIfAnyAndShowBoard();
                 }
+            }
+        }
+
+        private static void CheckPotKeys(ConsoleKeyInfo key)
+        {
+            if (key.KeyChar == 'o')
+            {
+                _pot -= 0.01;
+            }
+            if (key.KeyChar == 'p')
+            {
+                _pot += 0.01;
+            }
+            if (key.KeyChar == '[')
+            {
+                _pot -= 0.1;
+            }
+            if (key.KeyChar == ']')
+            {
+                _pot += 0.1;
+            }
+            if (key.KeyChar == ';')
+            {
+                _pot -= 1;
+            }
+            if (key.KeyChar == '\'')
+            {
+                _pot += 1;
             }
         }
 
@@ -119,14 +149,20 @@ namespace PTAC
 
         private static void ShowBet(MonteCarloResult result)
         {
-            var speedOfLight = 1 / Math.Sqrt(1 - result.Better * result.Better) * result.Better;
-            var bet =
-                Math.Round(
-                    Math.Min(_pot, Math.Max((speedOfLight * _numOfPlayers.Value - 1) * _pot * _risk, 0) / (_numOfPlayers.Value - 1)),
-                    2);
-            Console.Write(bet == _pot ? "All-in" : bet.ToString());
+            var bet = ComputeBet(result);
+            Console.Write((_pot - bet < 0.01) ? "All-in" : bet.ToString());
             Console.Write(" (" + (bet - _lastBet) + ") ");
             _lastBet = bet;
+        }
+
+        private static double ComputeBet(MonteCarloResult result)
+        {
+            var speedOfLight = 1/Math.Sqrt(1 - result.Better*result.Better)*result.Better;
+            var bet =
+                Math.Round(
+                    Math.Min(_pot, Math.Max((speedOfLight*_numOfPlayers.Value - 1)*_pot*_risk, 0)/(_numOfPlayers.Value - 1)),
+                    2);
+            return bet;
         }
 
         private static void SetCardParts(ConsoleKeyInfo key)
@@ -182,7 +218,7 @@ namespace PTAC
             SolveAndShow();
             Console.WriteLine();
             //
-            ShowNumOfPlayers();
+            ShowHeader();
         }
 
         private static void ShowLayout(IReadOnlyList<Card> cards, bool markFirstCards = false)
@@ -201,9 +237,9 @@ namespace PTAC
             Console.BackgroundColor = defColor;
         }
 
-        private static void ShowNumOfPlayers()
+        private static void ShowHeader()
         {
-            Console.Write(_numOfPlayers + ">");
+            Console.Write(string.Format("[{0}, ${1}]>", _numOfPlayers, _pot));
         }
 
         private static void CancelKey()
@@ -211,7 +247,7 @@ namespace PTAC
             ClearWaitingFields();
 
             ClearConsoleLine();
-            ShowNumOfPlayers();
+            ShowHeader();
         }
 
         private static void ClearConsoleLine()
@@ -226,7 +262,7 @@ namespace PTAC
             ClearWaitingFields();
             _cards.RemoveAt(_cards.Count - 1);
             Console.WriteLine("REMLAST");
-            ShowNumOfPlayers();
+            ShowHeader();
         }
 
         private static void ClearCards()
@@ -234,7 +270,7 @@ namespace PTAC
             ClearWaitingFields();
             _cards.Clear();
             Console.WriteLine("CLEAR");
-            ShowNumOfPlayers();
+            ShowHeader();
             _lastBet = 0;
         }
 
