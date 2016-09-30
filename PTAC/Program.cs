@@ -17,6 +17,9 @@ namespace PTAC
         private static List<Card> _cards = new List<Card>();
         private static int? _numOfPlayers = 6;
 
+        private static double _pot = 1;
+        private static double _risk = 0.2;
+
 
         static void Main(string[] args)
         {
@@ -85,19 +88,19 @@ namespace PTAC
                 Console.Write("Cards to go " + (5 - _cards.Count));
             }
 
-            var result = ComputeMonteCarloResult();
+            var result = ComputeMonteCarloResult(_cards, _numOfPlayers.Value);
             ShowMonteCarloResult(result);
         }
 
-        private static MonteCarloResult ComputeMonteCarloResult()
+        private static MonteCarloResult ComputeMonteCarloResult(List<Card> cards, int numOfPlayers)
         {
             CardSet cardSet = new CardSet();
             RandomSetDefinition arg = new RandomSetDefinition
             {
-                MyLayout = new CardLayout(_cards.Take(2).ToArray()),
+                MyLayout = new CardLayout(cards.Take(2).ToArray()),
                 // ReSharper disable once PossibleInvalidOperationException
-                NumOfPlayers = _numOfPlayers.Value,
-                Board = _cards.Skip(2).Take(5).ToArray()
+                NumOfPlayers = numOfPlayers,
+                Board = cards.Skip(2).Take(5).ToArray()
             };
             MonteCarlo<CardSet, RandomSetDefinition> monteCarlo =
                 new MonteCarlo<CardSet, RandomSetDefinition>(cardSet, MonteCarloIterations, arg);
@@ -109,7 +112,18 @@ namespace PTAC
         private static void ShowMonteCarloResult(MonteCarloResult result)
         {
             Console.WriteLine();
-            Console.Write(string.Format("{0}% - {1}% - {2}%", result.Better*100, result.Exact * 100, result.Smaller * 100));
+            Console.WriteLine(string.Format("{0}% - {1}% - {2}%", result.Better * 100, result.Exact * 100, result.Smaller * 100));
+            ShowBet(result);
+        }
+
+        private static void ShowBet(MonteCarloResult result)
+        {
+            var speedOfLight = 1 / Math.Sqrt(1 - result.Better * result.Better) * result.Better;
+            var bet =
+                Math.Round(
+                    Math.Min(_pot, Math.Max((speedOfLight * _numOfPlayers.Value - 1) * _pot * _risk, 0) / (_numOfPlayers.Value - 1)),
+                    2);
+            Console.Write(bet == _pot ? "All-in" : bet.ToString());
         }
 
         private static void SetCardParts(ConsoleKeyInfo key)
