@@ -19,6 +19,7 @@ namespace PTAC
 
         private static double _pot = 1;
         private static double _risk = 0.2;
+        private static double _lastBet = 0;
 
 
         static void Main(string[] args)
@@ -124,6 +125,8 @@ namespace PTAC
                     Math.Min(_pot, Math.Max((speedOfLight * _numOfPlayers.Value - 1) * _pot * _risk, 0) / (_numOfPlayers.Value - 1)),
                     2);
             Console.Write(bet == _pot ? "All-in" : bet.ToString());
+            Console.Write(" (" + (bet - _lastBet) + ") ");
+            _lastBet = bet;
         }
 
         private static void SetCardParts(ConsoleKeyInfo key)
@@ -232,6 +235,7 @@ namespace PTAC
             _cards.Clear();
             Console.WriteLine("CLEAR");
             ShowNumOfPlayers();
+            _lastBet = 0;
         }
 
         private static void ClearWaitingFields()
