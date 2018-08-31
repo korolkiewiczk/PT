@@ -116,7 +116,7 @@ namespace PTAC
             }
             else
             {
-                Console.Write("Cards to go " + (5 - _cards.Count));
+                Console.Write("Cards to go " + (5 - _cards.Count) + " "+ ((PokerMark)new CardLayout(_cards).GetMark()).PowerOfCards);
             }
 
             var result = ComputeMonteCarloResult(_cards, _numOfPlayers.Value);

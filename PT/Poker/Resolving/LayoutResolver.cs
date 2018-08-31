@@ -43,7 +43,7 @@ namespace PT.Poker.Resolving
             int bestStraight;
             GetPokerLayouts(out bestTwo, out secondTwo, out bestThree, out bestFour, out bestStraight);
 
-            PokerLayout = GetPockerLayout(bestFlush, bestTwo, secondTwo, bestThree, bestFour, bestStraight);
+            PokerLayout = GetPokerLayout(bestFlush, bestTwo, secondTwo, bestThree, bestFour, bestStraight);
 
             BestLayout = GetBestLayout(PokerLayout, bestFlush, bestTwo, secondTwo, bestThree, bestFour, bestStraight);
         }
@@ -139,11 +139,11 @@ namespace PT.Poker.Resolving
                     usedCardTypes.Add(newArray[i].CardType);
                 }
             }
-            if (j < 5) throw new Exception("Number of cards in new layout < 5");
+            //if (j < 5) throw new Exception("Number of cards in new layout < 5");
             return newCardLayout;
         }
 
-        private PokerLayouts GetPockerLayout(int bestFlush, int bestTwo, int secondTwo, int bestThree, int bestFour, int bestStraight)
+        private PokerLayouts GetPokerLayout(int bestFlush, int bestTwo, int secondTwo, int bestThree, int bestFour, int bestStraight)
         {
             if (Ok(bestFlush) && Ok(bestStraight))
                 return PokerLayouts.Poker;
@@ -151,7 +151,7 @@ namespace PT.Poker.Resolving
             if (Ok(bestFour))
                 return PokerLayouts.FourOfKind;
 
-            if (Ok(bestThree) && Ok(bestTwo))
+            if (Ok(bestThree) && Ok(secondTwo))
                 return PokerLayouts.FullHouse;
 
             if (Ok(bestFlush))
