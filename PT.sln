@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PTT", "PTT\PTT.csproj", "{C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PTAC", "PTAC\PTAC.csproj", "{122E0B38-65AA-4202-8DEA-F0558D6E2CE0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PT.Web", "PT.Web\PT.Web.csproj", "{3E2B8502-64B6-4316-8256-8A05EC6D5F07}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{122E0B38-65AA-4202-8DEA-F0558D6E2CE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{122E0B38-65AA-4202-8DEA-F0558D6E2CE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{122E0B38-65AA-4202-8DEA-F0558D6E2CE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E2B8502-64B6-4316-8256-8A05EC6D5F07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E2B8502-64B6-4316-8256-8A05EC6D5F07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E2B8502-64B6-4316-8256-8A05EC6D5F07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E2B8502-64B6-4316-8256-8A05EC6D5F07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
